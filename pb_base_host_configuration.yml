@@ -6,6 +6,7 @@
   vars:
     # The password has been generated with the command line: python -c 'import crypt; print(crypt.crypt("themostsecretword", crypt.mksalt(crypt.METHOD_SHA512)))'
     apalau_password: $6$XQ3iB.s4FHfrdKeI$OP3pDtrWHUCU31Ma5x/jZAdUHKYoF4/0K/G9Q3QE2tYLc/rcq2raolB1r8rVB7V07T6pDNlxuadFOSUvCfqKV0
+    ssh_port: 8080
   tasks:
   - name: ensure yum-utils is at the latest version
     yum: name=yum-utils state=latest
@@ -27,7 +28,7 @@
     lineinfile:
        dest: "/etc/ssh/sshd_config"
        regexp: "^Port"
-       line: "Port 23033"
+       line: "Port {{ssh_port}}"
     notify: "Restart sshd"
   - name: Set SELinux to Permissive
     selinux:
