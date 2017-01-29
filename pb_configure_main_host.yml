@@ -21,10 +21,19 @@
     yum: name=yum-utils state=latest
   - name: ensure python is at the latest version
     yum: name=python state=latest
-  - name: download Vagrant 1.9.1 RPM
+  - name: download and install Vagrant 1.9.1 RPM
     yum: 
        name=https://releases.hashicorp.com/vagrant/1.9.1/vagrant_1.9.1_x86_64.rpm
        state=present
+  - name: install virtualboxrepo
+    get_url: 
+       dest=/etc/yum.repos.d/virtualbox.repo 
+       url=http://download.virtualbox.org/virtualbox/rpm/el/virtualbox.repo
+       force=yes 
+  - name: ensure VirtualBox is at the latest version
+    yum: name=VirtualBox state=latest
+  - name: ensure dkms is at the latest version
+    yum: name=dkms state=latest
   - name: ensure vim is at the latest version
     yum: name=vim state=latest
   - name: ensure man is at the latest version
