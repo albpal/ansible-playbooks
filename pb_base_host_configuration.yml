@@ -52,7 +52,7 @@
        dest: /etc/sudoers
        state: present
        insertafter: '^%wheel'
-       line: '%admins ALL=(ALL) ALL'
+       line: '%admins ALL=(ALL) NOPASSWD:ALL'
   - name: remove root ssh login
     lineinfile:
        dest: /etc/ssh/sshd_config
