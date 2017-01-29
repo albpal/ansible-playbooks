@@ -21,14 +21,10 @@
     yum: name=yum-utils state=latest
   - name: ensure python is at the latest version
     yum: name=python state=latest
-  - name: download Vagran 1.9.1 RPM
+  - name: download Vagrant 1.9.1 RPM
     yum: 
        name=https://releases.hashicorp.com/vagrant/1.9.1/vagrant_1.9.1_x86_64.rpm
        state=present
-  - name: ensure docker-engine is at the latest version
-    yum: name=docker-engine state=latest
-  - name: ensure docker is running (and enable it at boot)
-    service: name=docker state=started enabled=yes
   - name: ensure vim is at the latest version
     yum: name=vim state=latest
   - name: ensure man is at the latest version
