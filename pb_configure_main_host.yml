@@ -21,11 +21,10 @@
     yum: name=yum-utils state=latest
   - name: ensure python is at the latest version
     yum: name=python state=latest
-  - name: add docker repository
-    get_url: 
-       dest=/etc/yum.repos.d/docker.repo 
-       url=https://docs.docker.com/engine/installation/linux/repo_files/centos/docker.repo 
-       force=yes 
+  - name: download Vagran 1.9.1 RPM
+    yum: 
+       name=https://releases.hashicorp.com/vagrant/1.9.1/vagrant_1.9.1_x86_64.rpm
+       state=present
   - name: ensure docker-engine is at the latest version
     yum: name=docker-engine state=latest
   - name: ensure docker is running (and enable it at boot)
