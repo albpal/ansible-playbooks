@@ -1,7 +1,11 @@
 # This Ansible playbook install and configure an Apache Web Server
 ---
-- name: Ensure apache is at latest version
-  yum: name=httpd state=latest
+- name: Ensure all needed packages are present
+  yum: 
+     name: '{{ item }}' 
+     state: present
+  with_items:
+  - '{{ packages_to_install }}'
   become: true
 - name: Ensure Apache is running (and enable it at boot)
   service: name=httpd state=started enabled=yes
@@ -14,24 +18,34 @@
      shell: /bin/bash
      state: present
   become: true
-- name: Change owner of /var/www/html
+- name: Creating and setting permisions for '{{ document_root }}'
   file:
      owner: apache
      group: apache
-     path: /var/www/html
+     path: '{{ document_root }}'
      recurse: yes
   become: true
-- name: Set the HTTP port
-  lineinfile:
+- name: Ensure last version of httpd.conf
+  template:
+     src: httpd.conf.j2
      dest: /etc/httpd/conf/httpd.conf
-     regexp: "^Listen"
-     line: "Listen {{ http_port }}"
-     state: present
+     owner: apache
+     group: apache
+     backup: yes
   become: true
-- name: Ensure firewalld accepts connections to 80/tcp
+  notify: Restart httpd
+- name: Ensure firewalld accepts connections to '{{ http_port }}'/tcp
   firewalld:
      port: "{{ http_port }}/tcp"
      state: enabled
      permanent: true
      immediate: true
   become: true
+- name: Clone website GIT repository
+  git:
+     repo: '{{ git_repository }}'
+     dest: '{{ document_root }}'
+     force: yes
+  become: true
+  become_user: apache
+

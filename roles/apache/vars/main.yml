@@ -1,2 +1,6 @@
 ---
 http_port: 80
+document_root: /var/www/html/
+git_repository: https://github.com/albpal/public_website.git
+packages_to_install:
+- git
