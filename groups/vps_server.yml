@@ -1,5 +1,5 @@
 ---
-- hosts: webserver
+- hosts: vps_server
   remote_user: apalau
   roles:
   - common
