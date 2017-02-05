@@ -13,6 +13,12 @@
     name: "*"
     state: latest
   become: True 
+- name: Ensure the timezone is Europe-Madrid
+  file:
+     src: /usr/share/zoneinfo/Europe/Madrid
+     dest: /etc/localtime
+     state: link
+  become: True
 - name: Setup alternate SSH port
   lineinfile:
      dest: "/etc/ssh/sshd_config"

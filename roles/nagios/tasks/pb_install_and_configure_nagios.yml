@@ -1,0 +1,21 @@
+# This Ansible playbook install and configure Nagios
+---
+- name: Ensure all needed packages are present
+  yum: 
+     name: '{{ item }}' 
+     state: present
+  with_items:
+  - '{{ packages_to_install }}'
+  become: true
+- name: Ensure Nagios is running (and enable it at boot)
+  service: name=nagios state=started enabled=yes
+  become: true
+- name: Ensure user nagios exists
+  user:
+     name: nagios
+     group: nagios
+     comment: "Nagios User"
+     shell: /bin/bash
+     state: present
+  become: true
+

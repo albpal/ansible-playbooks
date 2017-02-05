@@ -1,2 +1,2 @@
 ---
-- include: groups/webserver.yml
+- include: groups/vps_server.yml
