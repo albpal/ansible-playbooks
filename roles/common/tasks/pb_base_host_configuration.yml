@@ -1,0 +1,58 @@
+# This Ansible playbook performs the basic setup for my servers
+# It is recommended to reboot the server after run this play books cause it does a yum update *
+---
+- name: Ensure all packages are installed
+  yum: 
+     name: '{{ item }}'
+     state: present
+  become: True
+  with_items:
+  - '{{ packages_to_install }}'
+- name: Ensure we have last version of every package
+  yum:
+    name: "*"
+    state: latest
+  become: True 
+- name: Setup alternate SSH port
+  lineinfile:
+     dest: "/etc/ssh/sshd_config"
+     regexp: "^Port"
+     line: "Port {{ssh_port}}"
+  become: True
+  notify: "Restart sshd"
+- name: Set SELinux to Permissive
+  selinux:
+     state: permissive
+     policy: targeted
+  become: True
+- name: Disable ssh login for root user
+  lineinfile:
+     dest: "/etc/ssh/sshd_config"
+     regexp: "^#?PermitRootLogin yes"
+     line: "PermitRootLogin no"
+     backrefs: yes
+  become: True
+  notify: "Restart sshd"
+- name: Allowing '{{ admin_group }}' group to login through ssh
+  lineinfile:
+     dest: /etc/ssh/sshd_config
+     state: present
+     insertafter: EOF
+     line: 'AllowGroups {{ admin_group }}'
+  become: True
+  notify: "Restart sshd"
+- name: Ensure all services are running and enabled
+  service:
+    name: '{{ item }}'
+    state: started
+    enabled: True
+  become: True
+  with_items:
+  - '{{ services_to_be_running_and_enabled }}'
+- name: Ensure SSH can pass the firewall
+  firewalld:
+     port: "{{ ssh_port }}/tcp"
+     state: enabled
+     permanent: True
+     immediate: True
+  become: True

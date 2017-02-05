@@ -1,0 +1,29 @@
+---
+- hosts: all
+  remote_user: root
+  vars:
+    ssh_user: apalau 
+    admin_group: admins 
+  tasks:
+  - name: Ensure group '{{ admin_group }}' is already created
+    group:
+       name: "{{ admin_group }}"
+       state: present
+  - name: Ensure '{{ssh_user}}' user exsits
+    user:
+      name: '{{ssh_user}}'
+      state: present
+      shell: /bin/bash
+      group: '{{ admin_group }}'
+      comment: Administrator user
+  - name: Ensure '{{ssh_user}}' user accepts my SSH key
+    authorized_key:
+      user: '{{ssh_user}}'
+      key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      state: present
+  - name: Allow '{{ admin_group }}' group to have non password sudo
+    lineinfile:
+       dest: /etc/sudoers
+       state: present
+       insertafter: '^%wheel'
+       line: '%{{ admin_group }} ALL=(ALL) NOPASSWD:ALL'

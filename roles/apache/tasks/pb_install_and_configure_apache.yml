@@ -1,0 +1,37 @@
+# This Ansible playbook install and configure an Apache Web Server
+---
+- name: Ensure apache is at latest version
+  yum: name=httpd state=latest
+  become: true
+- name: Ensure Apache is running (and enable it at boot)
+  service: name=httpd state=started enabled=yes
+  become: true
+- name: Ensure user apache exists
+  user:
+     name: apache
+     group: apache
+     comment: "Apache user"
+     shell: /bin/bash
+     state: present
+  become: true
+- name: Change owner of /var/www/html
+  file:
+     owner: apache
+     group: apache
+     path: /var/www/html
+     recurse: yes
+  become: true
+- name: Set the HTTP port
+  lineinfile:
+     dest: /etc/httpd/conf/httpd.conf
+     regexp: "^Listen"
+     line: "Listen {{ http_port }}"
+     state: present
+  become: true
+- name: Ensure firewalld accepts connections to 80/tcp
+  firewalld:
+     port: "{{ http_port }}/tcp"
+     state: enabled
+     permanent: true
+     immediate: true
+  become: true

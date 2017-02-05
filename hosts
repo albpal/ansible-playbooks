@@ -1,0 +1,2 @@
+[webserver]
+37.247.52.181 ansible_ssh_port=23033

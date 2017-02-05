@@ -1,0 +1,19 @@
+---
+ssh_user: apalau
+admin_group: admins
+ssh_port: 23033
+packages_to_install:
+   - epel-release
+   - yum-utils
+   - libselinux-python
+   - libsemanage-python
+   - vim
+   - man
+   - java-1.8.0-openjdk
+   - net-tools
+   - policycoreutils-python
+   - ntp
+   - firewalld
+services_to_be_running_and_enabled:
+   - ntpd
+   - firewalld
