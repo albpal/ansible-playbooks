@@ -1,0 +1,50 @@
+# This Ansible playbook install and configure an Apache Web Server
+---
+- name: Ensure Jenkins repo is installed
+  yum_repository:
+     name: jenkins
+     description: Jenkins YUM repo
+     baseurl: http://pkg.jenkins-ci.org/redhat-stable/
+     state: present
+  become: true
+- name: Import Jenkins key
+  rpm_key:
+     state: present
+     key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+  become: true
+- name: Ensure all needed packages are present
+  yum: 
+     name: '{{ item }}' 
+     state: present
+  with_items:
+  - '{{ packages_to_install }}'
+  become: true
+- name: Ensure last version of jenkins
+  template:
+     src: jenkins.j2
+     dest: /etc/sysconfig/jenkins
+     owner: jenkins
+     group: jenkins
+     backup: yes
+  become: true
+  notify: Restart jenkins
+- name: Ensure Jenkins is running (and enable it at boot)
+  service: name=jenkins state=started enabled=yes
+  become: true
+- name: Ensure user jenkins exists
+  user:
+     name: jenkins
+     group: jenkins
+     comment: "Jenkins user"
+     shell: /bin/bash
+     state: present
+  become: true
+  notify: Restart jenkins
+- name: Ensure firewalld accepts connections to 8080/tcp
+  firewalld:
+     port: "8080/tcp"
+     state: enabled
+     permanent: true
+     immediate: true
+  become: true
+  notify: Restart firewalld

@@ -18,4 +18,13 @@
      shell: /bin/bash
      state: present
   become: true
+- name: Upload commands.cfg template
+  template:
+     src: commands.cfg
+     dest: /etc/nagios/objects
+     owner: root
+     group: root
+     backup: yes
+  notify: Restart nagios
+  become: true
 

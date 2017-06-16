@@ -1,0 +1,2 @@
+---
+- include: pb_install_and_configure_jenkins.yml
