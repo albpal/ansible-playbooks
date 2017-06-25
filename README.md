@@ -2,7 +2,7 @@
 
 Steps required to configure a host from scratch:
 
-Before execute anything, be sure you have not any old ssh key entry on ~/.ssh/known_hosts with the same IP.
+**Before** execute anything, be sure you have not any old ssh key entry on ~/.ssh/known_hosts with the same IP.
 
 1. Add it to know hosts: ssh root@37.247.52.181
 2. ansible-playbook playbooks/pb_unboxing_host.yml -i 37.247.52.181, -u root -k
