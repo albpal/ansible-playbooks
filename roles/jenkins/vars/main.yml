@@ -1,6 +1,6 @@
 ---
 http_port: 8080
-jenkins_home: /var/kubernetes/jenkins/
+jenkins_home: /var/jenkins/
 packages_to_install:
 - java
 - jenkins

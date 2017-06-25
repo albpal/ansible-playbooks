@@ -19,7 +19,23 @@
   with_items:
   - '{{ packages_to_install }}'
   become: true
-- name: Ensure last version of jenkins
+- name: Ensure user Jenkins exists
+  user:
+     name: jenkins
+     group: jenkins
+     comment: "Jenkins user"
+     shell: /bin/bash
+     state: present
+  become: true
+  notify: Restart jenkins
+- name: Creates Jenkins home folder
+  file: 
+     path: '{{ jenkins_home }}'
+     state: directory
+     owner: jenkins
+     group: jenkins
+  become: true
+- name: Ensure last configuration of Jenkins
   template:
      src: jenkins.j2
      dest: /etc/sysconfig/jenkins
@@ -31,15 +47,6 @@
 - name: Ensure Jenkins is running (and enable it at boot)
   service: name=jenkins state=started enabled=yes
   become: true
-- name: Ensure user jenkins exists
-  user:
-     name: jenkins
-     group: jenkins
-     comment: "Jenkins user"
-     shell: /bin/bash
-     state: present
-  become: true
-  notify: Restart jenkins
 - name: Ensure firewalld accepts connections to 8080/tcp
   firewalld:
      port: "8080/tcp"
