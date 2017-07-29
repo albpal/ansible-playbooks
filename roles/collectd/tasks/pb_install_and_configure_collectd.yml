@@ -1,0 +1,44 @@
+# This Ansible playbook install and configure a collectd with collectd-web server
+---
+- name: Ensure all needed packages are present
+  yum:
+     name: '{{ item }}'
+     state: present
+  with_items:
+  - '{{ packages_to_install }}'
+  become: true
+- name: Ensure collectd is running (and enable it at boot)
+  service: name=collectd state=started enabled=yes
+  become: true
+- name: Ensure firewalld accepts connections to {{http_port}}/tcp
+  firewalld:
+     port: "{{http_port}}/tcp"
+     state: enabled
+     permanent: true
+     immediate: true
+  become: true
+  notify: Restart firewalld
+- name: Download the collectd-web Git Repository
+  git:
+     repo: '{{ git_repository }}'
+     dest: '{{ collectdweb_directory }}'
+     force: yes
+  become: true
+- name: Give execute permission to the cgi-bin/graphdefs.cgi
+  file:
+     path: "{{ collectdweb_directory }}/cgi-bin/graphdefs.cgi"
+     mode: "o=rx"
+  become: true
+- name: Bind on all network interface IP Addresses
+  replace:
+     path: "{{ collectdweb_directory }}/runserver.py"
+     regexp: "127.0.0.1"
+     replace: "0.0.0.0"
+     backup: yes
+  become: True
+- name: Change listen port
+  lineinfile:
+     dest: "{{ collectdweb_directory }}/runserver.py"
+     regexp: "^PORT = 8888"
+     line: "PORT = {{http_port}}"
+  become: True

@@ -1,0 +1,13 @@
+---
+http_port: 8888
+collectdweb_directory: /opt/collectd-web/
+git_repository: https://github.com/httpdss/collectd-web.git
+packages_to_install:
+- httpd
+- collectd
+- git
+- rrdtool
+- rrdtool-devel
+- rrdtool-perl
+- perl-HTML-Parser
+- perl-JSON
