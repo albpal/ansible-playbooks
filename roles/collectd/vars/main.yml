@@ -11,3 +11,4 @@ packages_to_install:
 - rrdtool-perl
 - perl-HTML-Parser
 - perl-JSON
+- perl-CGI
