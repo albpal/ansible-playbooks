@@ -1,2 +1,2 @@
 ---
-- include: pb_install_and_configure_grafana.yml
+  - include: pb_install_and_configure_grafana.yml

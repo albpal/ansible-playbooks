@@ -259,6 +259,39 @@
       "height": 250,
       "panels": [
         {
+          "alert": {
+            "conditions": [
+              {
+                "evaluator": {
+                  "params": [
+                    90
+                  ],
+                  "type": "gt"
+                },
+                "operator": {
+                  "type": "and"
+                },
+                "query": {
+                  "params": [
+                    "A",
+                    "5m",
+                    "now"
+                  ]
+                },
+                "reducer": {
+                  "params": [],
+                  "type": "avg"
+                },
+                "type": "query"
+              }
+            ],
+            "executionErrorState": "keep_state",
+            "frequency": "60s",
+            "handler": 1,
+            "name": "Memory Usage (MB) alert",
+            "noDataState": "no_data",
+            "notifications": []
+          },
           "aliasColors": {},
           "bars": false,
           "dashLength": 10,
@@ -324,12 +357,6 @@
                   {
                     "params": [],
                     "type": "mean"
-                  },
-                  {
-                    "params": [
-                      " / 1000000"
-                    ],
-                    "type": "math"
                   }
                 ]
               ],
@@ -343,7 +370,7 @@
                   "condition": "AND",
                   "key": "type",
                   "operator": "=",
-                  "value": "memory"
+                  "value": "percent"
                 },
                 {
                   "condition": "AND",
@@ -354,7 +381,15 @@
               ]
             }
           ],
-          "thresholds": [],
+          "thresholds": [
+            {
+              "colorMode": "critical",
+              "fill": true,
+              "line": true,
+              "op": "gt",
+              "value": 90
+            }
+          ],
           "timeFrom": null,
           "timeShift": null,
           "title": "Memory Usage (MB)",
@@ -403,6 +438,40 @@
       "height": 250,
       "panels": [
         {
+          "alert": {
+            "conditions": [
+              {
+                "evaluator": {
+                  "params": [
+                    10
+                  ],
+                  "type": "lt"
+                },
+                "operator": {
+                  "type": "and"
+                },
+                "query": {
+                  "params": [
+                    "C",
+                    "5m",
+                    "now"
+                  ]
+                },
+                "reducer": {
+                  "params": [],
+                  "type": "avg"
+                },
+                "type": "query"
+              }
+            ],
+            "executionErrorState": "keep_state",
+            "frequency": "60s",
+            "handler": 1,
+            "message": "Uooops! Something is consuming our CPU!! Let's take a look to the server! }:-)",
+            "name": "CPU Usage alert",
+            "noDataState": "no_data",
+            "notifications": []
+          },
           "aliasColors": {},
           "bars": false,
           "dashLength": 10,
@@ -602,7 +671,15 @@
               ]
             }
           ],
-          "thresholds": [],
+          "thresholds": [
+            {
+              "colorMode": "critical",
+              "fill": true,
+              "line": true,
+              "op": "lt",
+              "value": 10
+            }
+          ],
           "timeFrom": null,
           "timeShift": null,
           "title": "CPU Usage",
@@ -684,5 +761,5 @@
   },
   "timezone": "",
   "title": "apalau-vps",
-  "version": 9
+  "version": 5
 }

@@ -198,7 +198,7 @@ LoadPlugin network
 #LoadPlugin turbostat
 #LoadPlugin unixsock
 #LoadPlugin uptime
-#LoadPlugin users
+LoadPlugin users
 #LoadPlugin uuid
 #LoadPlugin varnish
 #LoadPlugin virt
@@ -499,11 +499,11 @@ LoadPlugin network
 #</Plugin>
 
 <Plugin df>
-	Device "/dev/xvda1"
+#	Device "/dev/xvda1"
 #	Device "192.168.0.2:/mnt/nfs"
-	MountPoint "/"
-	FSType "ext3"
-#	IgnoreSelected false
+#	MountPoint "/"
+#	FSType "ext3"
+	IgnoreSelected false
 #	ReportByDevice false
 #	ReportInodes false
 	ValuesAbsolute false
@@ -717,10 +717,10 @@ LoadPlugin network
 #	</Instance>
 #</Plugin>
 
-#<Plugin memory>
-#	ValuesAbsolute true
-#	ValuesPercentage false
-#</Plugin>
+<Plugin memory>
+	ValuesAbsolute false
+	ValuesPercentage true
+</Plugin>
 
 #<Plugin modbus>
 #	<Data "data_name">
