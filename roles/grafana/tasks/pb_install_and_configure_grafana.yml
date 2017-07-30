@@ -1,0 +1,25 @@
+# This Ansible playbook install and configure grafana. The DB is at /var/lib/grafana/grafana.db and configuration at /etc/grafana/grafana.ini
+---
+- name: Ensure all needed packages are present
+  yum:
+     name: '{{ grafana_rpm }}'
+     state: present
+  become: true
+- name: Ensure grafana is running (and enable it at boot)
+  service: name=grafana-server state=started enabled=yes
+  become: true
+- name: Ensure firewalld accepts connections to '{{ grafana_http_port }}/tcp'
+  firewalld:
+     port: "{{ grafana_http_port }}/tcp"
+     state: enabled
+     permanent: true
+     immediate: true
+  become: true
+  notify: Restart firewalld
+- name: Configure grafana.ini
+  template:
+     src: grafana.ini.j2
+     dest: /etc/grafana/grafana.ini
+     backup: yes
+  become: true
+  notify: Restart grafana

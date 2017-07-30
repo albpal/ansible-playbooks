@@ -1,6 +1,6 @@
 ---
-- name: Restart firewalld
-  service:
-    name: firewalld
+- name: Restart collectd
+  service: 
+    name: collectd
     state: restarted
   become: True

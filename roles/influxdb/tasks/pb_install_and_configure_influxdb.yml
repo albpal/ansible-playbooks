@@ -1,0 +1,26 @@
+# This Ansible playbook install and configure influxdb. The DB is at /usr/share/collectd/types.db
+---
+- name: Ensure all needed packages are present
+  yum:
+     name: '{{ influxdb_rpm }}'
+     state: present
+  become: true
+- name: Ensure influxd is running (and enable it at boot)
+  service: name=influxd state=started enabled=yes
+  become: true
+- name: Configure influxdb.conf
+  template:
+     src: influxdb.conf.j2
+     dest: /etc/opt/influxdb/influxdb.conf
+     mode: "u=rw,g=r,o=r"
+     backup: yes
+  become: true
+  notify: Restart influxd
+- name: Ensure firewalld accepts connections to '{{ influxdb_http_port }}/tcp'
+  firewalld:
+     port: "{{ influxdb_http_port }}/tcp"
+     state: enabled
+     permanent: true
+     immediate: true
+  become: true
+  notify: Restart firewalld

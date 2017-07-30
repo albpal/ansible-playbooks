@@ -1,0 +1,11 @@
+---
+- name: Restart grafana-server
+  service: 
+    name: grafana-server
+    state: restarted
+  become: True
+- name: Restart firewalld
+  service:
+    name: firewalld
+    state: restarted
+  become: true

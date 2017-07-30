@@ -1,0 +1,11 @@
+---
+- name: Restart influxd
+  service: 
+    name: influxd
+    state: restarted
+  become: True
+- name: Restart firewalld
+  service:
+    name: firewalld
+    state: restarted
+  become: True

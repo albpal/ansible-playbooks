@@ -1,14 +1,20 @@
 ---
-http_port: 8888
+#http_port: 8888
 collectdweb_directory: /opt/collectd-web/
 git_repository: https://github.com/httpdss/collectd-web.git
+influxdb_address: 127.0.0.1
+influxdb_port: 25826
 packages_to_install:
-- httpd
+#- httpd
 - collectd
-- git
-- rrdtool
-- rrdtool-devel
-- rrdtool-perl
-- perl-HTML-Parser
-- perl-JSON
-- perl-CGI
+#- git
+#- rrdtool
+#- rrdtool-devel
+#- rrdtool-perl
+#- perl-HTML-Parser
+#- perl-JSON
+#- perl-CGI
+#- collectd-rrdtool
+#- perl-Collectd
+#- perl-Config-General
+#- perl-Regexp-Common

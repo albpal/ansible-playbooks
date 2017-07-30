@@ -2,8 +2,10 @@
 - hosts: vps_server
   remote_user: apalau
   roles:
-#  - common
-#  - apache
+  - common
+  - apache
 #  - nagios
-#  - jenkins
+  - jenkins
   - collectd
+  - influxdb
+  - grafana
