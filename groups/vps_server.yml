@@ -6,6 +6,6 @@
 #  - apache
 #  - nagios
 #  - jenkins
-  - collectd
-#  - influxdb
+#  - collectd
+  - influxdb
 #  - grafana
