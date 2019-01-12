@@ -1,4 +1,4 @@
 ---
 - hosts: all
   roles: 
-   - albpal.ansible_role_basichostconfig
+   - ansible-role-basichostconfig
