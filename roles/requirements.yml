@@ -1,2 +1,2 @@
 # from galaxy
-- src: albpal.ansible_role_basichostconfig
+- src: https://github.com/albpal/ansible-role-basichostconfig.git
