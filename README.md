@@ -17,4 +17,4 @@ If all went OK, you should login to the host without enter the password.
 3. ansible-galaxy install -r roles/requirements.yml -p roles
 4. ansible-playbook install-portainer.yml -i $HOST, -u apalau -e ansible_ssh_port=23033
 
-
+If all went OK, you should access Portainer at http://$HOST:9000
