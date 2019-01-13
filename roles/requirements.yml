@@ -1,2 +1,3 @@
 # from galaxy
 - src: https://github.com/albpal/ansible-role-basichostconfig.git
+- src: https://github.com/albpal/ansible-role-portainer.git
